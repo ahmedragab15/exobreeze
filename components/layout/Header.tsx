@@ -82,7 +82,7 @@ const Header = () => {
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
-                      <Link href="/account" className="w-full">
+                      <Link href="/profile" className="w-full">
                         Profile
                       </Link>
                     </DropdownMenuItem>

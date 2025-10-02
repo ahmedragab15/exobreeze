@@ -1,5 +1,9 @@
+import Header from "@/components/layout/Header";
+
 export default function MapPage() {
   return (
-    <h1>Map</h1>
-  )
+    <>
+      <Header />
+    </>
+  );
 }

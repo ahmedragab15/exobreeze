@@ -11,6 +11,10 @@ export const navItems: INavItems[] = [
     name: "Dashboard",
     href: "/dashboard",
   },
+  {
+    name: "Plant Trees Game",
+    href: "/mini-game",
+  },
 ];
 
 export const LoginFormInputs: ILoginInputs[] = [
