@@ -1,8 +1,6 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { User, Building2 } from "lucide-react"
-import Image from "next/image"
+import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function WelcomeAboardPage() {
   return (
@@ -27,9 +25,7 @@ export default function WelcomeAboardPage() {
               <CardContent className="p-6">
                 <Link href="/questionnaire/individual" className="block">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-blue-600 rounded-lg">
-                      <User className="w-6 h-6 text-white" />
-                    </div>
+                    <Image src="/icons/Individual.png" alt="Individual icon" width={60} height={60} />
                     <div className="flex-1 text-left">
                       <h3 className="mb-2 text-xl font-semibold text-foreground">Individual</h3>
                       <p className="leading-relaxed text-muted-foreground">
@@ -45,9 +41,8 @@ export default function WelcomeAboardPage() {
               <CardContent className="p-6">
                 <Link href="/questionnaire/construction" className="block">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-blue-600 rounded-lg">
-                      <Building2 className="w-6 h-6 text-white" />
-                    </div>
+                    <Image src="/icons/Firm.png" alt="Firm icon" width={60} height={60} />
+
                     <div className="flex-1 text-left">
                       <h3 className="mb-2 text-xl font-semibold text-foreground">Construction firm</h3>
                       <p className="leading-relaxed text-muted-foreground">
@@ -58,12 +53,6 @@ export default function WelcomeAboardPage() {
                 </Link>
               </CardContent>
             </Card>
-          </div>
-
-          <div className="pt-4">
-            <Button size="lg" className="px-12 py-3 text-lg text-white bg-blue-600 rounded-lg hover:bg-blue-700" asChild>
-              <Link href="/questionnaire/individual">Continue</Link>
-            </Button>
           </div>
         </div>
 
