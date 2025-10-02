@@ -1,22 +1,11 @@
-
 "use client";
-
 import { ChartContainer } from "@/components/ui/chart";
+import { chartData } from "@/data/dummyDate";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
-
-const chartData = [
-  { day: "sat", value: 155 },
-  { day: "sun", value: 140 },
-  { day: "mon", value: 150 },
-  { day: "tue", value: 100 },
-  { day: "wed", value: 180 },
-  { day: "thu", value: 160 },
-  { day: "fri", value: 25 },
-];
 
 export default function LocationChart() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       <h3 className="text-lg font-semibold">DAILY AQI READINGS</h3>
       <ChartContainer
         config={{
@@ -25,7 +14,7 @@ export default function LocationChart() {
             color: "#3b82f6",
           },
         }}
-        className="h-80"
+        className="h-80 w-full"
       >
         <LineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
