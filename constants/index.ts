@@ -1,3 +1,18 @@
+export const navItems: INavItems[] = [
+  {
+    name: "Home",
+    href: "/home",
+  },
+  {
+    name: "My map",
+    href: "/map",
+  },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+  },
+];
+
 export const LoginFormInputs: ILoginInputs[] = [
   {
     name: "email",
