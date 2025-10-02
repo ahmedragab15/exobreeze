@@ -42,18 +42,18 @@ export default function RegisterPage() {
   const onSubmit = async (values: registerSchemaValues) => {
     setIsLoading(true);
     try {
-      // const res = await axiosInstance.post("/auth/register", values);
-      // if (res.status >= 200 && res.status < 300) {
-      //   toast.success("Account created successfully, please login", {
-      //     position: "top-right",
-      //     autoClose: 2000,
-      //     theme: "light",
-      //     transition: Bounce,
-      //   });
-      //   setTimeout(() => {
+      const res = await axiosInstance.post("/auth/register", values);
+      if (res.status >= 200 && res.status < 300) {
+        toast.success("Account created successfully, please login", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "light",
+          transition: Bounce,
+        });
+        setTimeout(() => {
       router.push("/login");
-      //   }, 1500);
-      // }
+        }, 1500);
+      }
     } catch (error: any) {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
@@ -114,18 +114,29 @@ export default function RegisterPage() {
               <div className="flex-1 h-px bg-gray-300" />
             </div>
             <div className="space-y-3">
-              <Button className="w-full h-12 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+              <Button
+                className="w-full h-12 text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                onClick={() => {
+                  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/facebook`;
+                }}
+              >
                 <Facebook className="w-5 h-5 mr-2" />
                 Sign up with Facebook
               </Button>
-              <Button variant="outline" className="w-full h-12">
+              <Button
+                variant="outline"
+                className="w-full h-12"
+                onClick={() => {
+                  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/auth/google`;
+                }}
+              >
                 <Image src="/google-icon-logo.svg" alt="google" width={20} height={20} />
                 Sign up with Google
               </Button>
             </div>
           </div>
         </section>
-        {/* Carousel Section */}
+        
         <div className="relative hidden w-full overflow-hidden lg:flex lg:w-1/2">
           <div className="relative flex items-center justify-center w-full">
             <Image src={slides[currentSlide].src} alt={slides[currentSlide].alt} fill priority className="object-contain py-6" />

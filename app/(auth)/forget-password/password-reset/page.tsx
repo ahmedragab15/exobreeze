@@ -2,13 +2,13 @@
 import type React from "react";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Facebook, ChevronLeft, ChevronRight, ArrowBigLeft, ArrowLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, loginSchemaValues } from "@/schema"; // هتعمل schema للـ login
+import { resetPasswordSchema, ResetPasswordValues } from "@/schema"; 
 import { Bounce, toast } from "react-toastify";
 import axiosInstance from "@/config/axios.config";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -16,12 +16,13 @@ import Image from "next/image";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
+  const params = useParams();
+  const token = params?.token as string;
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<loginSchemaValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ResetPasswordValues>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email: "",
       password: "",
     },
   });
@@ -38,12 +39,18 @@ export default function ResetPasswordPage() {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
-  const onSubmit = async (values: loginSchemaValues) => {
+  const onSubmit = async (values: ResetPasswordValues) => {
+    if (!token) {
+      toast.error("Invalid or missing token");
+      return;
+    }
     setIsLoading(true);
     try {
-      // const res = await axiosInstance.post("/auth/login", values);
+      // const res = await axiosInstance.post(`/auth/reset-password/${token}`, {
+      //   password: values.password,
+      // });
       // if (res.status >= 200 && res.status < 300) {
-      //   toast.success("Logged in successfully", {
+      //   toast.success("Password reset successfully", {
       //     position: "top-right",
       //     autoClose: 2000,
       //     theme: "light",
@@ -54,11 +61,7 @@ export default function ResetPasswordPage() {
       //   }, 1500);
       // }
     } catch (error: any) {
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("Invalid email or password");
-      }
+      toast.error(error.response?.data?.message || "Failed to reset password");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -67,43 +70,38 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
       <main className="flex flex-1 flex-col lg:flex-row">
         <header className="p-8">
           <Link href="/">
             <Image src="/logo.png" width={150} height={150} className="h-auto w-36 object-cover" alt="Logo" />
           </Link>
         </header>
-
         <section className="w-full lg:w-1/2 flex flex-col min-h-screen p-6">
           <div className="flex-1 flex items-center justify-center">
             <div className="w-full max-w-md space-y-6">
               <h1 className="text-3xl font-bold text-blue-600 text-center">Password reset</h1>
-
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>We sent the code to example@gmail.com</FormLabel>
+                        <FormLabel>Enter your new password</FormLabel>
                         <FormControl>
-                          <Input placeholder="Code" type="email" className="h-12 border-l-0" {...field} />
+                          <Input placeholder="New password" type="password" className="h-12" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-lg rounded-lg" disabled={isLoading}>
-                    Reset password
+                    {isLoading ? "Resetting..." : "Reset password"}
                   </Button>
                 </form>
               </Form>
             </div>
           </div>
-
-          {/* زرار Back - تحت خالص */}
           <div className="mr-auto ml-10">
             <Button
               variant={"ghost"}
@@ -115,12 +113,10 @@ export default function ResetPasswordPage() {
             </Button>
           </div>
         </section>
-        {/* Carousel Section */}
+
         <div className="hidden lg:flex w-full lg:w-1/2 relative overflow-hidden">
           <div className="relative w-full flex items-center justify-center">
             <Image src={slides[currentSlide].src} alt={slides[currentSlide].alt} fill priority className="object-contain py-6" />
-
-            {/* Controls */}
             <div className="absolute bottom-50 xl:bottom-24 left-1/2 -translate-x-1/2 flex items-center gap-4 z-20">
               <div className="flex gap-2">
                 <Button
@@ -136,8 +132,6 @@ export default function ResetPasswordPage() {
                   <ChevronRight className="w-5 h-5 text-white" />
                 </Button>
               </div>
-
-              {/* Dots */}
               <div className="flex gap-2">
                 {slides.map((_, i) => (
                   <span
