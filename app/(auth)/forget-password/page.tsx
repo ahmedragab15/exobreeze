@@ -28,10 +28,10 @@ export default function ForgetPasswordPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
-    { src: "/screen1.png", alt: "Screen 1" },
-    { src: "/screen2.png", alt: "Screen 2" },
-    { src: "/screen3.png", alt: "Screen 3" },
-    { src: "/screen4.png", alt: "Screen 4" },
+    { src: "/screen1.webp", alt: "Screen 1" },
+    { src: "/screen2.webp", alt: "Screen 2" },
+    { src: "/screen3.webp", alt: "Screen 3" },
+    { src: "/screen4.webp", alt: "Screen 4" },
   ];
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);

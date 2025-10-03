@@ -129,7 +129,7 @@ export default function Home() {
       <Header />
       <section
         ref={heroRef}
-        className="flex relative justify-between min-h-screen gap-12 sm:gap-20 pt-62 bg-[url('/hero_bg.png')] bg-no-repeat bg-center bg-cover bg-fixed"
+        className="flex relative justify-between min-h-screen gap-12 sm:gap-20 pt-62 bg-[url('/hero_bg.webp')] bg-no-repeat bg-center bg-cover bg-fixed"
       >
         <div className="flex flex-col gap-4 px-4 max-w-7xl sm:px-8 lg:px-30 hero-content">
           <div className="flex items-center gap-2 text-3xl text-white">
@@ -209,7 +209,7 @@ export default function Home() {
                   key={i}
                   className="carousel-card relative h-96 w-full md:w-[400px] flex-shrink-0 snap-center rounded-2xl overflow-hidden group cursor-pointer bg-gradient-to-br from-blue-400 to-blue-500"
                 >
-                  <Image src={`/${img}.jpg`} alt={img} width={400} height={300} className="absolute inset-0 w-full h-full object-cover opacity-70" />
+                  <Image src={`/${img}.webp`} alt={img} width={400} height={300} className="absolute inset-0 w-full h-full object-cover opacity-70" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <h3 className="text-2xl font-semibold mb-2 capitalize">{img.replace("_", " ")}</h3>
@@ -238,35 +238,35 @@ export default function Home() {
           <h3 className="text-xl font-medium mb-6">Groups that will be affected</h3>
           <div className="flex flex-wrap gap-3">
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/children.png" alt="children" width={17} height={17} className="mr-2" />
+              <Image src="/icons/children.webp" alt="children" width={17} height={17} className="mr-2" />
               Children
             </Button>
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/pregnant_women.png" alt="pregnant women" width={17} height={17} className="mr-2" />
+              <Image src="/icons/pregnant_women.webp" alt="pregnant women" width={17} height={17} className="mr-2" />
               Pregnant women
             </Button>
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/elderly_people.png" alt="elderly people" width={17} height={17} className="mr-2" />
+              <Image src="/icons/elderly_people.webp" alt="elderly people" width={17} height={17} className="mr-2" />
               Elderly People
             </Button>
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/heart_patients.png" alt="heart patients" width={17} height={17} className="mr-2" />
+              <Image src="/icons/heart_patients.webp" alt="heart patients" width={17} height={17} className="mr-2" />
               Heart Patients
             </Button>
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/outdoor_workers.png" alt="outdoor workers" width={17} height={17} className="mr-2" />
+              <Image src="/icons/outdoor_workers.webp" alt="outdoor workers" width={17} height={17} className="mr-2" />
               Outdoor Workers
             </Button>
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/respiratory_patients.png" alt="respiratory patients" width={17} height={17} className="mr-2" />
+              <Image src="/icons/respiratory_patients.webp" alt="respiratory patients" width={17} height={17} className="mr-2" />
               Respiratory Patients
             </Button>
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/athletes.png" alt="athletes" width={17} height={17} className="mr-2" />
+              <Image src="/icons/athletes.webp" alt="athletes" width={17} height={17} className="mr-2" />
               Athletes
             </Button>
             <Button variant="secondary" className="bg-[#A5D4FF] hover:bg-[#8CAFFF] text-[#1E3A8A] font-medium px-6 py-5 rounded-lg">
-              <Image src="/icons/low_immunity.png" alt="low_immunity" width={17} height={17} className="mr-2" />
+              <Image src="/icons/low_immunity.webp" alt="low_immunity" width={17} height={17} className="mr-2" />
               Low Immunity
             </Button>
           </div>

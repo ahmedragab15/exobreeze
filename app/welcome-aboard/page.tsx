@@ -55,7 +55,7 @@ export default function WelcomeAboardPage() {
               <CardContent className="p-6">
                 <Link href="/questionnaire/individual" className="block">
                   <div className="flex items-start gap-4">
-                    <Image src="/icons/Individual.png" alt="Individual icon" width={60} height={60} />
+                    <Image src="/icons/Individual.webp" alt="Individual icon" width={60} height={60} />
                     <div className="flex-1 text-left">
                       <h3 className="mb-2 text-xl font-semibold text-foreground">Individual</h3>
                       <p className="leading-relaxed text-muted-foreground">
@@ -70,7 +70,7 @@ export default function WelcomeAboardPage() {
               <CardContent className="p-6">
                 <Link href="/questionnaire/construction" className="block">
                   <div className="flex items-start gap-4">
-                    <Image src="/icons/Firm.png" alt="Firm icon" width={60} height={60} />
+                    <Image src="/icons/Firm.webp" alt="Firm icon" width={60} height={60} />
 
                     <div className="flex-1 text-left">
                       <h3 className="mb-2 text-xl font-semibold text-foreground">Construction firm</h3>

@@ -113,7 +113,7 @@ const Home = () => {
       <Header />
       <section
         ref={heroRef}
-        className="flex relative justify-between min-h-screen gap-12 sm:gap-20 pt-62 bg-[url('/hero_bg.png')] bg-no-repeat bg-center bg-cover bg-fixed"
+        className="flex relative justify-between min-h-screen gap-12 sm:gap-20 pt-62 bg-[url('/hero_bg.webp')] bg-no-repeat bg-center bg-cover bg-fixed"
       >
         <div className="absolute -top-28 right-0 w-1/3 h-full md:bg-[url('/patterns.png')] bg-no-repeat bg-right bg-contain pointer-events-none"></div>
         <div className="flex flex-col gap-4 px-4 max-w-7xl sm:px-8 lg:px-30 hero-content">
@@ -222,7 +222,7 @@ const Home = () => {
         </div>
         <Card className="border-blue-200 bg-blue-300 p-2 exposure-card">
           <CardContent className="flex items-center gap-3 p-4">
-            <Image src="/icons/heart.png" alt="heart" width={40} height={40} />
+            <Image src="/icons/heart.webp" alt="heart" width={40} height={40} />
             <div className="text-lg">
               <span className="font-bold">Great job!</span>
               <span className="ml-1">Keep it up with short walks or cycling when AQI stays this low</span>
@@ -238,7 +238,7 @@ const Home = () => {
           <Link href="/location/al-azhar-park" className="md:row-span-2 snapshot-item">
             <Card className="h-full overflow-hidden transition-shadow cursor-pointer group hover:shadow-lg py-0">
               <div className="relative h-48 md:h-full bg-gradient-to-br from-blue-400 to-blue-500">
-                <div className="absolute inset-0 bg-[url('/al-azhar-park-with-trees-and-greenery.jpg')] bg-cover bg-center opacity-80" />
+                <div className="absolute inset-0 bg-[url('/al-azhar-park-with-trees-and-greenery.webp')] bg-cover bg-center opacity-80" />
                 <div className="absolute text-white bottom-4 left-4">
                   <h3 className="text-2xl font-semibold text-shadow-md">Al-Azhar Park</h3>
                   <p className="font-medium text-orange-400 text-shadow-md">AQI statistics</p>
@@ -252,7 +252,7 @@ const Home = () => {
           <Link href="/location/family-park" className="md:col-span-2 snapshot-item">
             <Card className="overflow-hidden transition-shadow cursor-pointer group hover:shadow-lg py-0">
               <div className="relative h-48 bg-gradient-to-br from-blue-400 to-blue-500">
-                <div className="absolute inset-0 bg-[url('/family-park-with-lake-and-palm-trees.jpg')] bg-cover bg-center opacity-80" />
+                <div className="absolute inset-0 bg-[url('/family-park-with-lake-and-palm-trees.webp')] bg-cover bg-center opacity-80" />
                 <div className="absolute text-white bottom-4 left-4">
                   <h3 className="text-2xl font-semibold text-shadow-md">Family park</h3>
                   <p className="font-medium text-orange-400 text-shadow-md">AQI statistics</p>
@@ -266,7 +266,7 @@ const Home = () => {
           <Link href="/location/alexandria-corniche" className="md:col-span-2 snapshot-item">
             <Card className="overflow-hidden transition-shadow cursor-pointer group hover:shadow-lg py-0">
               <div className="relative h-48 bg-gradient-to-br from-blue-400 to-blue-500">
-                <div className="absolute inset-0 bg-[url('/alexandria-corniche-waterfront-with-buildings.jpg')] bg-cover bg-center opacity-80" />
+                <div className="absolute inset-0 bg-[url('/alexandria-corniche-waterfront-with-buildings.webp')] bg-cover bg-center opacity-80" />
                 <div className="absolute text-white bottom-4 left-4">
                   <h3 className="text-2xl font-semibold text-shadow-md">Alexandria corniche</h3>
                   <p className="font-medium text-orange-400 text-shadow-md">AQI statistics</p>

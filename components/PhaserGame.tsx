@@ -14,7 +14,7 @@ const PhaserGame = () => {
       }
 
       preload() {
-        this.load.image("bg_clean", "/game/bg_clean.jpg");
+        this.load.image("bg_clean", "/game/bg_clean.webp");
       }
 
       create() {
@@ -96,8 +96,8 @@ const PhaserGame = () => {
       }
 
       preload() {
-        this.load.image("bg_polluted", "/game/bg_polluted.jpg");
-        this.load.image("bg_clean", "/game/bg_clean.jpg");
+        this.load.image("bg_polluted", "/game/bg_polluted.webp");
+        this.load.image("bg_clean", "/game/bg_clean.webp");
         this.load.image("tree", "/game/tree.png");
         this.load.image("smoke", "/game/smoke.png");
         this.load.audio("plant", "/game/plant.mp3");

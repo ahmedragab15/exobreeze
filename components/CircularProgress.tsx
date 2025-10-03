@@ -1,8 +1,5 @@
 "use client";
-
 import * as React from "react";
-
-import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 
 interface CircularProgressProps {
@@ -49,7 +46,6 @@ const CircularProgress = ({
         style={{ transform: "rotate(-90deg)" }}
         className="relative"
       >
-        {/* Base Circle */}
         <circle
           r={radius}
           cx={size / 2}
@@ -61,7 +57,6 @@ const CircularProgress = ({
           className={cn("stroke-primary/25", className)}
         />
 
-        {/* Progress */}
         <circle
           r={radius}
           cx={size / 2}
@@ -84,7 +79,6 @@ const CircularProgress = ({
 };
 
 export default function CircularProgressColor({progressValue}: {progressValue: number}) {
-  const [progress, setProgress] = React.useState([13]);
 
   return (
     <div className="max-w-xs mx-auto w-full flex flex-col items-center">

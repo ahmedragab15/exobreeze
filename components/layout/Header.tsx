@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 
-
 interface User {
   id: string;
   name: string;
