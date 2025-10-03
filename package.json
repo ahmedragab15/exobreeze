@@ -36,6 +36,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.60.0",
+    "react-loadly": "^2.2.0",
     "react-responsive": "^10.0.1",
     "react-toastify": "^11.0.5",
     "recharts": "latest",
