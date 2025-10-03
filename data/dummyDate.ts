@@ -45,6 +45,16 @@ const locations = {
   },
 };
 
+const healthGroups = [
+  { label: "Children", amount: "6,806", value: 6806, color: "#2E4FD8" },
+  { label: "Elderly people", amount: "2,000", value: 2000, color: "#4A6FE8" },
+  { label: "Respiratory patients", amount: "3,474", value: 3474, color: "#6B8FF5" },
+  { label: "Pregnant women", amount: "7,307", value: 7307, color: "#8CAFFF" },
+  { label: "Outdoor workers", amount: "6,264", value: 6264, color: "#A5C4FF" },
+  { label: "Athletes", amount: "5,482", value: 5482, color: "#BDD7FF" },
+  { label: "Low immunity", amount: "2,728", value: 2728, color: "#D6E7FF" },
+];
+
 //+ Dashboard
 const pollutionDays: PollutionDay[] = [
   {
@@ -185,4 +195,4 @@ const weatherDays: WeatherDay[] = [
   },
 ];
 
-export { chartData, stats,locations, weatherDays, pollutionDays };
+export { chartData, stats, locations, healthGroups, weatherDays, pollutionDays };

@@ -122,7 +122,7 @@ export default function ConstructionQuestionnairePage() {
         await axiosInstance.post("/auth/firm/submit");
 
         const userCookie = JSON.parse(getCookie("user") as string);
-        const updatedUser = { ...userCookie, hasCompletedQuestionnaire: true };
+        const updatedUser = { ...userCookie, hasCompletedQuestionnaire: true, isIndividual: false };
         setCookie("user", JSON.stringify(updatedUser), { maxAge: 60 * 60 * 24 * 30 });
 
         toast.success("Questionnaire completed 🎉", { autoClose: 1000, transition: Bounce });

@@ -75,7 +75,10 @@ export default function LoginPage() {
           theme: "light",
           transition: Bounce,
         });
-        const { token, user } = res.data;
+        let { token, user } = res.data;
+        const isIndividual = !!user.individualQuestionnaire;
+        user = { ...user, isIndividual };
+
         setCookie("token", token, { maxAge: 60 * 60 * 24 * 30 });
         setCookie("user", JSON.stringify(user), { maxAge: 60 * 60 * 24 * 30 });
 
