@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast, Bounce } from "react-toastify";
 import axiosInstance from "@/config/axios.config";
 import { getCookie, setCookie } from "cookies-next";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const steps = [
   { id: 1, title: "Company Info", description: "Key details about your company." },
@@ -21,6 +23,7 @@ export default function ConstructionQuestionnairePage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const stepRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -37,6 +40,15 @@ export default function ConstructionQuestionnairePage() {
     certifications: "",
     sustainabilityEfforts: "",
   });
+
+  useGSAP(
+    () => {
+      if (stepRef.current) {
+        gsap.fromTo(stepRef.current.children, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: "power3.out" });
+      }
+    },
+    { dependencies: [currentStep], scope: stepRef }
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -113,8 +125,8 @@ export default function ConstructionQuestionnairePage() {
         const updatedUser = { ...userCookie, hasCompletedQuestionnaire: true };
         setCookie("user", JSON.stringify(updatedUser), { maxAge: 60 * 60 * 24 * 30 });
 
-        toast.success("Questionnaire completed 🎉", { autoClose: 2000, transition: Bounce });
-        setTimeout(() => router.replace("/home"), 1500);
+        toast.success("Questionnaire completed 🎉", { autoClose: 1000, transition: Bounce });
+        setTimeout(() => router.replace("/home"), 500);
       }
     } catch (error: any) {
       if (error.response?.data?.message) {
@@ -132,7 +144,7 @@ export default function ConstructionQuestionnairePage() {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-4">
+          <div ref={stepRef} className="space-y-4">
             <Input placeholder="Company Name" name="companyName" value={formData.companyName} onChange={handleChange} />
             <Input placeholder="Email" name="email" value={formData.email} onChange={handleChange} />
             <Input placeholder="Location" name="location" value={formData.location} onChange={handleChange} />
@@ -142,7 +154,7 @@ export default function ConstructionQuestionnairePage() {
         );
       case 2:
         return (
-          <div className="space-y-4">
+          <div ref={stepRef} className="space-y-4">
             <label className="flex items-center gap-2">
               <Checkbox checked={formData.airQualityAssessment} onCheckedChange={(val) => handleCheckbox("airQualityAssessment", Boolean(val))} />
               Air Quality Assessment
@@ -165,7 +177,7 @@ export default function ConstructionQuestionnairePage() {
         );
       case 3:
         return (
-          <div className="space-y-4">
+          <div ref={stepRef} className="space-y-4">
             <label className="flex items-center gap-2">
               <Checkbox checked={formData.greenSpacesPlan} onCheckedChange={(val) => handleCheckbox("greenSpacesPlan", Boolean(val))} />
               Plan for Green Spaces
@@ -215,7 +227,6 @@ export default function ConstructionQuestionnairePage() {
           ))}
         </div>
       </div>
-
       <div className="flex-1 p-8">
         <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-2xl p-8">
           {renderStepContent()}

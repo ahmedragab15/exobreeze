@@ -1,4 +1,8 @@
+"use client";
 import Link from "next/link";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,14 +16,35 @@ import { locations } from "@/data/dummyDate";
 
 export default function LocationStatsPage({ params }: { params: { slug: string } }) {
   const location = locations[params.slug as keyof typeof locations];
-
   if (!location) notFound();
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const cardsRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+
+  useGSAP(() => {
+    gsap.from(titleRef.current, {
+      y: -30,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    gsap.from(cardsRef.current?.children || [], {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      stagger: 0.2,
+      delay: 0.3,
+    });
+  }, []);
 
   return (
     <>
       <Header />
-      <div className="flex items-center justify-center min-h-screen p-4 bg-gray-100 mt-12">
-        <Card className="container mx-auto bg-white shadow-lg">
+      <div ref={containerRef} className="flex items-center justify-center min-h-screen p-4 bg-gray-100 mt-12">
+        <Card className="container mx-auto bg-white shadow-lg rounded-xl">
           <CardHeader className="pb-6">
             <div className="flex items-center gap-4">
               <Link href="/home">
@@ -27,12 +52,13 @@ export default function LocationStatsPage({ params }: { params: { slug: string }
                   <ArrowLeft className="w-5 h-5" />
                 </Button>
               </Link>
-              <CardTitle className="text-2xl font-semibold">{location.name} AQI statistics</CardTitle>
+              <CardTitle ref={titleRef} className="text-2xl font-semibold">
+                {location.name} AQI statistics
+              </CardTitle>
             </div>
           </CardHeader>
-
           <CardContent className="space-y-8">
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div ref={cardsRef} className="grid gap-6 lg:grid-cols-3">
               <Card className="bg-gray-50">
                 <CardContent className="p-6 ">
                   <div className="space-y-2">
@@ -48,7 +74,6 @@ export default function LocationStatsPage({ params }: { params: { slug: string }
                   </div>
                 </CardContent>
               </Card>
-
               <Card className="bg-gray-50">
                 <CardContent className="p-6 space-y-4 flex items-center justify-between">
                   <div className="space-y-2">
@@ -61,13 +86,11 @@ export default function LocationStatsPage({ params }: { params: { slug: string }
                       <span className="font-bold">{location.lastMonthPercent}%</span> Last week
                     </h3>
                   </div>
-
                   <div className="relative">
                     <CircularProgressColor progressValue={location.goalPercent} />
                   </div>
                 </CardContent>
               </Card>
-
               <Card className="bg-gray-50">
                 <CardContent className="p-6 space-y-4">
                   <div className="space-y-2">

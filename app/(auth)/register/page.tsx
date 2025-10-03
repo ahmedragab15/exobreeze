@@ -1,7 +1,7 @@
 "use client";
 import type React from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,11 +14,36 @@ import axiosInstance from "@/config/axios.config";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RegisterFormInputs } from "@/constants";
 import Image from "next/image";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const logoRef = useRef(null);
+  const titleRef = useRef(null);
+  const formRef = useRef(null);
+  const textRef = useRef(null);
+  const dividerRef = useRef(null);
+  const socialRef = useRef(null);
+  const carouselRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.set([logoRef.current, titleRef.current, formRef.current, textRef.current, dividerRef.current, socialRef.current, carouselRef.current], {
+      opacity: 0,
+      y: 20,
+    });
+
+    gsap.to([logoRef.current, titleRef.current, formRef.current, textRef.current, dividerRef.current, socialRef.current, carouselRef.current], {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.08,
+      ease: "power2.out",
+    });
+  });
 
   const form = useForm<registerSchemaValues>({
     resolver: zodResolver(registerSchema),
@@ -51,8 +76,8 @@ export default function RegisterPage() {
           transition: Bounce,
         });
         setTimeout(() => {
-      router.push("/login");
-        }, 1500);
+          router.push("/login");
+        }, 500);
       }
     } catch (error: any) {
       if (error.response?.data?.message) {
@@ -68,52 +93,56 @@ export default function RegisterPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex flex-col flex-1 lg:flex-row">
-        <header className="p-8">
+        <header className="p-8" ref={logoRef}>
           <Link href="/">
             <Image src="/logo.png" width={150} height={150} className="object-cover h-auto w-36" alt="Logo" />
           </Link>
         </header>
         <section className="flex items-center justify-center w-full p-6 lg:w-1/2">
           <div className="w-full max-w-md space-y-6">
-            <h1 className="text-3xl font-bold text-center text-blue-600">Create account</h1>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                {RegisterFormInputs.map((input) => (
-                  <FormField
-                    key={input.name}
-                    control={form.control}
-                    name={input.name}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{input.label}</FormLabel>
-                        <FormControl>
-                          <Input type={input.type} placeholder={input.placeholder} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))}
-                <Link href="/forget-password" className="block space-y-2 text-right text-blue-600 hover:underline">
-                  Forget password?
-                </Link>
-                <Button type="submit" disabled={isLoading} className="w-full h-12 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                  Create account
-                </Button>
-              </form>
-            </Form>
-            <p className="text-sm text-center text-gray-600">
+            <h1 ref={titleRef} className="text-3xl font-bold text-center text-blue-600">
+              Create account
+            </h1>
+            <div ref={formRef}>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                  {RegisterFormInputs.map((input) => (
+                    <FormField
+                      key={input.name}
+                      control={form.control}
+                      name={input.name}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{input.label}</FormLabel>
+                          <FormControl>
+                            <Input type={input.type} placeholder={input.placeholder} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+                  <Link href="/forget-password" className="block space-y-2 text-right text-blue-600 hover:underline">
+                    Forget password?
+                  </Link>
+                  <Button type="submit" disabled={isLoading} className="w-full h-12 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                    Create account
+                  </Button>
+                </form>
+              </Form>
+            </div>
+            <p ref={textRef} className="text-sm text-center text-gray-600">
               Already have an account?{" "}
               <Link href="/login" className="text-blue-600 hover:underline">
                 Log in
               </Link>
             </p>
-            <div className="flex items-center gap-2">
+            <div ref={dividerRef} className="flex items-center gap-2">
               <div className="flex-1 h-px bg-gray-300" />
               <span className="text-sm text-gray-500">or</span>
               <div className="flex-1 h-px bg-gray-300" />
             </div>
-            <div className="space-y-3">
+            <div ref={socialRef} className="space-y-3">
               <Button
                 className="w-full h-12 text-white bg-blue-600 rounded-lg hover:bg-blue-700"
                 onClick={() => {
@@ -136,8 +165,8 @@ export default function RegisterPage() {
             </div>
           </div>
         </section>
-        
-        <div className="relative hidden w-full overflow-hidden lg:flex lg:w-1/2">
+
+        <div ref={carouselRef} className="relative hidden w-full overflow-hidden lg:flex lg:w-1/2">
           <div className="relative flex items-center justify-center w-full">
             <Image src={slides[currentSlide].src} alt={slides[currentSlide].alt} fill priority className="object-contain py-6" />
             <div className="absolute z-20 flex items-center gap-4 -translate-x-1/2 bottom-50 xl:bottom-24 left-1/2">

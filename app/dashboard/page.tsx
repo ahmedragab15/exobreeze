@@ -2,11 +2,13 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Header from "@/components/layout/Header";
 import { pollutionDays, weatherDays } from "@/data/dummyDate";
 import WeatherIcon from "@/components/WeatherIcon";
 import { useMediaQuery } from "react-responsive";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function DashboardPage() {
   const [selectedDay, setSelectedDay] = useState<string>("today");
@@ -22,6 +24,64 @@ export default function DashboardPage() {
 
   const weatherCardsPerView = isMobile ? 1 : isTablet ? 2 : isDesktop ? 4 : 1;
   const pollutionCardsPerView = isMobile ? 1 : isTablet ? 2 : isDesktop ? 4 : 1;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      gsap.fromTo(".page-header", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" });
+
+      gsap.fromTo(
+        ".weather-card",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out",
+        }
+      );
+      gsap.fromTo(
+        ".pollution-card",
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: "power2.out",
+          delay: 0.3,
+        }
+      );
+      gsap.fromTo(
+        ".message-box",
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.4,
+          ease: "back.out(1.5)",
+        }
+      );
+      gsap.fromTo(
+        ".nav-button",
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.3,
+          stagger: 0.1,
+          ease: "back.out(1.7)",
+        }
+      );
+    },
+    { scope: containerRef }
+  );
+
+  const handleWeatherCardClick = (dayId: string) => {
+    setSelectedWeatherDay(dayId);
+  };
 
   const nextWeatherCards = () => {
     if (weatherCarouselIndex < weatherDays.length - weatherCardsPerView) {
@@ -48,24 +108,23 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f7]">
+    <div ref={containerRef} className="min-h-screen bg-[#f5f5f7]">
       <Header />
       <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10 mt-16">
-        <div className="relative mb-10 lg:mb-14">
+        <div className="relative mb-10 lg:mb-14 h-[450px]">
           <div className="flex items-center gap-2 sm:gap-4">
             <Button
               variant="outline"
               size="icon"
               onClick={prevWeatherCards}
               disabled={weatherCarouselIndex === 0}
-              className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110 bg-transparent"
+              className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110 bg-transparent nav-button"
             >
               <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
-
             <div className="overflow-hidden flex-1">
               <div
-                className="flex gap-3 sm:gap-5 transition-transform duration-500 ease-out"
+                className="flex gap-3 sm:gap-5 transition-transform duration-500 ease-out items-stretch"
                 style={{
                   transform: `translateX(-${weatherCarouselIndex * (100 / weatherCardsPerView)}%)`,
                 }}
@@ -78,21 +137,19 @@ export default function DashboardPage() {
                     return (
                       <Card
                         key={day.id}
-                        onClick={() => setSelectedWeatherDay(day.id)}
-                        className="min-w-[calc(100%-12px)] sm:min-w-[calc(50%-10px)] lg:min-w-[calc(50%-10px)] bg-gradient-to-br from-[#6eb5e8] via-[#4a9ad8] to-[#2b7ab8] text-white p-5 sm:p-7 rounded-[20px] sm:rounded-[28px] border-0 shadow-lg cursor-pointer transition-all duration-300 ease-in-out hover:shadow-xl transform hover:scale-[1.02]"
+                        onClick={() => handleWeatherCardClick(day.id)}
+                        className="min-w-[calc(100%-12px)] sm:min-w-[calc(50%-10px)] lg:min-w-[calc(50%-10px)] bg-gradient-to-br from-[#6eb5e8] via-[#4a9ad8] to-[#2b7ab8] text-white p-5 sm:p-7 rounded-[20px] sm:rounded-[28px] border-0 shadow-lg cursor-pointer transition-all duration-600 ease-in-out hover:shadow-xl transform hover:scale-[1.02] weather-card h-[450px]"
                       >
                         <div className="flex justify-between items-start mb-6 sm:mb-8">
                           <div className="text-[15px] sm:text-[17px] font-medium">{day.label}</div>
                           <div className="text-[15px] sm:text-[17px] font-medium">{isToday ? "11:45 AM" : ""}</div>
                         </div>
-
                         <div className="flex items-start justify-between mb-8 sm:mb-10">
                           <div className="text-[56px] sm:text-[72px] font-bold leading-none">{day.temp}</div>
                           <div className="scale-75 sm:scale-100">
                             <WeatherIcon type={day.icon} />
                           </div>
                         </div>
-
                         <div className="space-y-2 sm:space-y-2.5 text-[13px] sm:text-[14px] transition-all duration-300 ease-in-out">
                           <div className="flex justify-between items-center">
                             <span className="text-blue-100">Real Feel</span>
@@ -126,8 +183,8 @@ export default function DashboardPage() {
                   return (
                     <Card
                       key={day.id}
-                      onClick={() => setSelectedWeatherDay(day.id)}
-                      className="min-w-[calc(100%-12px)] sm:min-w-[calc(50%-10px)] lg:min-w-[calc(25%-15px)] bg-gradient-to-b from-[#a8d5f2] to-[#7ec3ed] text-white p-4 sm:p-5 rounded-[20px] sm:rounded-[28px] border-0 shadow-md flex flex-col items-center justify-between min-h-[200px] sm:min-h-[240px] cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg transform"
+                      onClick={() => handleWeatherCardClick(day.id)}
+                      className="min-w-[calc(100%-12px)] sm:min-w-[calc(50%-10px)] lg:min-w-[calc(25%-15px)] bg-gradient-to-b from-[#a8d5f2] to-[#7ec3ed] text-white p-4 sm:p-5 rounded-[20px] sm:rounded-[28px] border-0 shadow-md flex flex-col items-center justify-between cursor-pointer transition-all duration-600 ease-in-out hover:scale-105 hover:shadow-lg transform weather-card h-[450px]"
                     >
                       <div className="text-[14px] sm:text-[15px] font-semibold mb-2 sm:mb-3 text-white/90 uppercase tracking-wide">{day.label}</div>
                       <div className="relative flex-1 flex items-center justify-center transition-transform duration-300 scale-75 sm:scale-100">
@@ -139,13 +196,12 @@ export default function DashboardPage() {
                 })}
               </div>
             </div>
-
             <Button
               variant="outline"
               size="icon"
               onClick={nextWeatherCards}
               disabled={weatherCarouselIndex >= weatherDays.length - weatherCardsPerView}
-              className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110"
+              className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110 nav-button"
             >
               <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
@@ -153,8 +209,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="mb-8 lg:mb-10">
-          <h2 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-gray-900 mb-6 sm:mb-8">Day pollution forecast</h2>
-
+          <h2 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-gray-900 mb-6 sm:mb-8 page-header">Day pollution forecast</h2>
           <div className="relative">
             <div className="flex items-center gap-2 sm:gap-4">
               <Button
@@ -162,11 +217,10 @@ export default function DashboardPage() {
                 size="icon"
                 onClick={prevPollutionCards}
                 disabled={pollutionCarouselIndex === 0}
-                className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110 bg-transparent"
+                className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110 bg-transparent nav-button"
               >
                 <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
-
               <div className="overflow-hidden flex-1">
                 <div
                   className="flex gap-3 sm:gap-6 transition-transform duration-500 ease-out"
@@ -178,7 +232,7 @@ export default function DashboardPage() {
                     <Card
                       key={day.id}
                       onClick={() => setSelectedDay(day.id)}
-                      className={`min-w-[calc(100%-12px)] sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] bg-white p-5 sm:p-7 rounded-[20px] sm:rounded-[28px] border shadow-sm transition-all duration-300 ease-in-out cursor-pointer transform ${
+                      className={`min-w-[calc(100%-12px)] sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] bg-white p-5 sm:p-7 rounded-[20px] sm:rounded-[28px] border shadow-sm transition-all duration-300 ease-in-out cursor-pointer transform pollution-card ${
                         selectedDay === day.id
                           ? "border-gray-400 shadow-xl scale-105 ring-2 ring-gray-300"
                           : "border-gray-200 hover:shadow-md hover:scale-[1.02]"
@@ -214,22 +268,20 @@ export default function DashboardPage() {
                   ))}
                 </div>
               </div>
-
               <Button
                 variant="outline"
                 size="icon"
                 onClick={nextPollutionCards}
                 disabled={pollutionCarouselIndex >= pollutionDays.length - pollutionCardsPerView}
-                className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110"
+                className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-md disabled:opacity-30 transition-all hover:scale-110 nav-button"
               >
                 <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
             </div>
           </div>
         </div>
-
         <div
-          className={`${currentDay.bgColor} rounded-[20px] sm:rounded-[28px] p-5 sm:p-7 text-center shadow-sm transition-all duration-500 ease-in-out`}
+          className={`${currentDay.bgColor} rounded-[20px] sm:rounded-[28px] p-5 sm:p-7 text-center shadow-sm transition-all duration-500 ease-in-out message-box`}
         >
           <p className="text-[16px] sm:text-[18px] lg:text-[19px] font-semibold text-gray-900 leading-relaxed transition-all duration-300">
             {currentDay.message}

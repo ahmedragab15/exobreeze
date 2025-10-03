@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans`}>
         {children}
-        <ToastContainer position="bottom-left" autoClose={1000} />
+        <ToastContainer position="bottom-left" autoClose={500} />
       </body>
     </html>
   );

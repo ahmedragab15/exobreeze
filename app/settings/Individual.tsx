@@ -61,8 +61,8 @@ export default function IndividualQuestionnaireSettings() {
         improvements: formData.improvements,
       });
 
-      toast.success("Settings updated 🎉", { autoClose: 2000, transition: Bounce });
-      setTimeout(() => router.push("/home"), 1500);
+      toast.success("Settings updated 🎉", { autoClose: 1000, transition: Bounce });
+      setTimeout(() => router.push("/home"), 500);
     } catch (error: any) {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
@@ -96,7 +96,6 @@ export default function IndividualQuestionnaireSettings() {
             Sensitive to Weather or Allergies?
           </label>
         </div>
-
         <div>
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Daily Routine & Exposure</h2>
           <Input name="timeOutdoorsDaily" placeholder="Hours outdoors" value={formData.timeOutdoorsDaily} onChange={handleChange} />
@@ -112,7 +111,6 @@ export default function IndividualQuestionnaireSettings() {
             <Input name="frequency" placeholder="Frequency" value={formData.frequency} onChange={handleChange} className="mt-3" />
           )}
         </div>
-
         <div>
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Preferences & Goals</h2>
           <Input name="mainGoal" placeholder="Main Goal" value={formData.mainGoal} onChange={handleChange} />
@@ -125,10 +123,9 @@ export default function IndividualQuestionnaireSettings() {
             className="mt-3 min-h-[100px]"
           />
         </div>
-
         <div className="flex justify-end">
           <Button onClick={handleSubmit} disabled={isLoading} className="px-8 py-3 text-white bg-blue-600 hover:bg-blue-700">
-            {isLoading ? "Saving..." : "Save Changes"}
+            {isLoading ? "Submitting..." : "Submit Questionnaire"}
           </Button>
         </div>
       </div>

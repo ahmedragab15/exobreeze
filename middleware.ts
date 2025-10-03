@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
 
   const publicRoutes = ["/", "/login", "/register"];
   const firstTimeRoutes = ["/welcome-aboard", "/questionnaire/construction", "/questionnaire/individual"];
-  const privateRoutes = ["/home", "/dashboard", "/location", "/map", "/mini-game", "/settings"];
+  const privateRoutes = ["/home", "/dashboard", "/map", "/mini-game", "/settings"];
 
   if (!token) {
     if (!publicRoutes.includes(path)) {
@@ -33,7 +33,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (privateRoutes.includes(path)) {
+  if (privateRoutes.includes(path) || path.startsWith("/location/")) {
     return NextResponse.next();
   }
 

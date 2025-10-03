@@ -10,6 +10,8 @@ import { Headphones } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getCookie, setCookie } from "cookies-next";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const steps = [
   {
@@ -48,6 +50,30 @@ export default function IndividualQuestionnaire() {
     improvements: "",
   });
 
+  useGSAP(() => {
+    gsap.from(".sidebar", {
+      x: -100,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+    });
+
+    gsap.from(".step-content", {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: "power2.out",
+    });
+
+    gsap.from(".step-indicator", {
+      scale: 0.5,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.15,
+      ease: "back.out(1.7)",
+    });
+  }, [currentStep]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const fieldValue = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
@@ -70,7 +96,7 @@ export default function IndividualQuestionnaire() {
           sensitiveToWeatherOrAllergies: formData.sensitiveToWeatherOrAllergies,
         });
 
-        toast.success("Step 1 completed ✅", { autoClose: 1500, transition: Bounce });
+        toast.success("Step 1 completed ✅", { transition: Bounce });
         setCurrentStep(2);
       }
 
@@ -84,7 +110,7 @@ export default function IndividualQuestionnaire() {
           },
         });
 
-        toast.success("Step 2 completed ✅", { autoClose: 1500, transition: Bounce });
+        toast.success("Step 2 completed ✅", { transition: Bounce });
         setCurrentStep(3);
       }
 
@@ -101,8 +127,8 @@ export default function IndividualQuestionnaire() {
         const updatedUser = { ...userCookie, hasCompletedQuestionnaire: true };
         setCookie("user", JSON.stringify(updatedUser), { maxAge: 60 * 60 * 24 * 30 });
 
-        toast.success("Questionnaire completed 🎉", { autoClose: 2000, transition: Bounce });
-        setTimeout(() => router.replace("/home"), 1500);
+        toast.success("Questionnaire completed 🎉", { autoClose: 1000, transition: Bounce });
+        setTimeout(() => router.replace("/home"), 500);
       }
     } catch (error: any) {
       if (error.response?.data?.message) {
@@ -120,7 +146,7 @@ export default function IndividualQuestionnaire() {
     switch (currentStep) {
       case 1:
         return (
-          <div className="space-y-6">
+          <div className="step-content space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">Personal details</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Input name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} className="h-12" />
@@ -142,7 +168,7 @@ export default function IndividualQuestionnaire() {
 
       case 2:
         return (
-          <div className="space-y-6">
+          <div className="step-content space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">Daily routine & exposure</h2>
             <Input
               name="timeOutdoorsDaily"
@@ -167,7 +193,7 @@ export default function IndividualQuestionnaire() {
 
       case 3:
         return (
-          <div className="space-y-6">
+          <div className="step-content space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">Preferences & goals</h2>
             <Input name="mainGoal" placeholder="Main Goal" value={formData.mainGoal} onChange={handleChange} className="h-12" />
             <Input name="healthGoals" placeholder="Health Goals" value={formData.healthGoals} onChange={handleChange} className="h-12" />
@@ -189,8 +215,7 @@ export default function IndividualQuestionnaire() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-50 to-orange-50">
       <div className="flex">
-        {/* Sidebar */}
-        <div className="min-h-screen p-6 w-80 bg-gradient-to-b from-blue-300 via-blue-100 to-orange-300">
+        <div className="sidebar min-h-screen p-6 w-80 bg-gradient-to-b from-blue-300 via-blue-100 to-orange-300">
           <div className="flex flex-col h-full">
             <div className="mb-8">
               <Link href="/">
@@ -199,7 +224,7 @@ export default function IndividualQuestionnaire() {
             </div>
             <div className="flex-1 space-y-6">
               {steps.map((step, index) => (
-                <div key={step.id} className="relative flex items-start gap-4">
+                <div key={step.id} className="relative flex items-start gap-4 step-indicator">
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold ${
                       currentStep === step.id
