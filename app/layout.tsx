@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
+import "react-loadly/styles.css";
 import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
