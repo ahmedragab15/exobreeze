@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function SlideScale() {
   const data = [
     { imageSrc: "/icons/train.webp", title: "Since AQI is 65 today; try public transportation! you’ll be saving 1kg CO2 " },
-    { imageSrc: "/icons/vector.webp", title: "Tomorrow's AQI is 101 ! Try to work from home or combine errands" },
+    { imageSrc: "/icons/person.webp", title: "Tomorrow's AQI is 101 ! Try to work from home or combine errands" },
     { imageSrc: "/icons/leaf.webp", title: "Clean air yesterday means your effort kept AQI low for everyone!" },
   ];
 
@@ -46,7 +46,7 @@ export default function SlideScale() {
           <Card key={index} className="text-white bg-blue-600 transition-transform duration-500">
             <CardContent className="p-6 space-y-4">
               <div className="flex items-center gap-3">
-                <Image src={card.imageSrc} alt={card.title} width={40} height={40} />
+                <Image src={card.imageSrc} alt={card.title.split(" ")[0]} width={40} height={40} />
                 <h3 className="font-medium">{card.title}</h3>
               </div>
             </CardContent>
