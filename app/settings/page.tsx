@@ -7,6 +7,7 @@ import axiosInstance from "@/config/axios.config";
 import Header from "@/components/layout/Header";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { getCookie, setCookie } from "cookies-next";
 
 export default function SettingsPage() {
   const [selectedType, setSelectedType] = useState<"firm" | "individual">("individual");
@@ -44,6 +45,13 @@ export default function SettingsPage() {
       const res = await axiosInstance.put("/auth/user/type", { type });
 
       if (res.status >= 200 && res.status < 300) {
+        const userCookie = JSON.parse(getCookie("user") as string);
+        const updatedUser = {
+          ...userCookie,
+          isIndividual: type === "individual",
+        };
+        setCookie("user", JSON.stringify(updatedUser), { maxAge: 60 * 60 * 24 * 30 });
+
         toast.success(`Switched to ${type}`, {
           position: "top-right",
           autoClose: 500,
