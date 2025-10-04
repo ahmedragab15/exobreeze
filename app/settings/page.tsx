@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import FirmSettings from "./Firm";
 import IndividualSettings from "./Individual";
 import { toast, Bounce } from "react-toastify";
@@ -8,6 +8,7 @@ import Header from "@/components/layout/Header";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { getCookie, setCookie } from "cookies-next";
+import { RotateLoader } from "react-loadly";
 
 export default function SettingsPage() {
   const [selectedType, setSelectedType] = useState<"firm" | "individual">("individual");
@@ -17,8 +18,19 @@ export default function SettingsPage() {
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const userCookie = getCookie("user");
+    if (userCookie) {
+      const user = JSON.parse(userCookie as string);
+      setSelectedType(user.isIndividual ? "individual" : "firm");
+    } else {
+      setSelectedType("individual");
+    }
+  }, []);
+
   useGSAP(
     () => {
+      if (!selectedType) return;
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.from(toggleRef.current, {
         opacity: 0,
@@ -40,6 +52,7 @@ export default function SettingsPage() {
   );
 
   const handleSwitch = async (type: "firm" | "individual") => {
+    if (selectedType === type) return;
     setIsLoading(true);
     try {
       const res = await axiosInstance.put("/auth/user/type", { type });
@@ -80,6 +93,17 @@ export default function SettingsPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  if (!selectedType) {
+    return (
+      <>
+        <Header />
+        <div className="z-50 flex items-center justify-center min-h-screen">
+          <RotateLoader color="#ff8080" size={60} speed={1.5} loadingText="Loading..." count={5} borderWidth={6} />
+        </div>
+      </>
+    );
   };
 
   return (
