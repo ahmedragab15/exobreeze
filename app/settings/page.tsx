@@ -33,7 +33,6 @@ export default function SettingsPage() {
       if (!selectedType) return;
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.from(toggleRef.current, {
-        opacity: 0,
         y: -20,
         duration: 0.6,
       })
